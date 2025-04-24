@@ -22,7 +22,6 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-//        return response()->json('register');
 
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:255',
@@ -49,7 +48,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Пользователь успешно зарегистрирован. Пожалуйста, проверьте свою почту для подтверждения аккаунта.',
-            'user' => $user // Можно вернуть данные пользователя (без пароля)
+            'user' => $user
         ], 201); // 201 Created
     }
 
@@ -115,33 +114,25 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Запрос на удаление аккаунта.
-     */
+
     public function requestAccountDeletion(Request $request)
     {
         $user = auth('api')->user();
 
         // Генерируем подписанный URL для подтверждения удаления
-        // URL будет действителен 1 час (3600 секунд)
-//        $verificationUrl = URL::temporarySignedRoute(
-//            'api.auth.confirm-deletion', // Имя маршрута (определим позже)
-//            now()->addHour(),
-//            ['user' => $user->id]
-//        );
+        // URL будет действителен 1 час
+        $verificationUrl = URL::temporarySignedRoute(
+            'api.auth.confirm-deletion',
+            now()->addHour(),
+            ['user' => $user->id]
+        );
 
         // Отправляем письмо с ссылкой для подтверждения
-        // TODO: Создать Mailable 'ConfirmAccountDeletion'
-//        Mail::to($user->email)->send(new ConfirmAccountDeletion($user, $verificationUrl));
+        Mail::to($user->email)->send(new ConfirmAccountDeletion($user, $verificationUrl));
 
         return response()->json(['message' => 'Письмо с подтверждением удаления отправлено на вашу почту.']);
     }
 
-    /**
-     * Подтверждение и удаление аккаунта.
-     * Этот метод будет вызываться при переходе по подписанной ссылке.
-     * Laravel автоматически проверит подпись URL.
-     */
     public function confirmAccountDeletion(Request $request, User $user)
     {
 
