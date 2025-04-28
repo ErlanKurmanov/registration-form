@@ -60,4 +60,14 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail // Ð”Ð
             // 'role' => $this->is_admin ? 'admin' : 'user',
         ];
     }
+
+    public function orders(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
 }
