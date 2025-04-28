@@ -1,6 +1,6 @@
 <?php
 
-// app/Http/Controllers/Api/Admin/UserController.php
+// app/Http/Controllers/Api/Admin/AdminUserController.php
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 
 // Для отправки верификации, если нужно
 
-class UserController extends Controller
+class AdminUserController extends Controller
 {
 
     public function index()

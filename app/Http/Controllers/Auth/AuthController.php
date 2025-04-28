@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Mail\ConfirmAccountDeletion;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -44,7 +45,7 @@ class AuthController extends Controller
         ]);
 
 //         Sends email
-        event(new Registered($user));
+//        event(new Registered($user));
 
         return response()->json([
             'message' => 'Пользователь успешно зарегистрирован. Пожалуйста, проверьте свою почту для подтверждения аккаунта.',
