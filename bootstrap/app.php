@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
-            'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class, // Убедитесь, что 'signed' есть
+            'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
             'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class, // Стандартный middleware для проверки email
         ]);
     })
