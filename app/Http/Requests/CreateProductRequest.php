@@ -9,16 +9,15 @@ class CreateProductRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        // Set to true if you don't have specific authorization logic here yet
-        // Or add logic like: return auth()->check() && auth()->user()->can('create-product');
-        return true;
+
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     public function rules(): array
     {
-        
+
         return [
-            
+
             'category_id'   => ['required', 'exists:categories,id'],
             'name'          => ['required', 'string', 'max:255'],
             'description'   => ['nullable', 'string'],
@@ -34,7 +33,7 @@ class CreateProductRequest extends FormRequest
 
     public function messages(): array
     {
-        
+
         return [
             'category_id.required' => 'The product must belong to a category.',
             'category_id.exists' => 'The selected category is invalid.',

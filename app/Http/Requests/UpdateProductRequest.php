@@ -9,10 +9,7 @@ class UpdateProductRequest extends FormRequest
 
     public function authorize(): bool
     {
-        // e.g. only allow if user owns the product or is admin
-//        return auth()->check();
-
-        return true;
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     public function rules(): array

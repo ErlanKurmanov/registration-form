@@ -13,7 +13,7 @@ class PlaceOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::check(); // Проверяем, авторизован ли пользователь
+        return Auth::check();
     }
 
 
