@@ -21,8 +21,8 @@ class PlaceOrderRequest extends FormRequest
     {
         return [
             'shipping_address' => 'required|string|max:500',
-//            'billing_address' => 'nullable|string|max:500',
-//            'payment_method' => 'required|in:credit_card,paypal,cash_on_delivery',
+        //            'billing_address' => 'nullable|string|max:500',
+        //            'payment_method' => 'required|in:credit_card,paypal,cash_on_delivery',
             'comment' => 'nullable|string|max:1000',
         ];
     }

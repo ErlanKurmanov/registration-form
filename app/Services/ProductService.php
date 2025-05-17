@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Contracts\ProductServiceInterface;
+use App\Contracts\Services\ProductServiceInterface;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Collection;
@@ -16,7 +16,7 @@ class ProductService implements ProductServiceInterface
 
     public function getProductsByCategory(int $id): Collection
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         return $category->products;
     }
 

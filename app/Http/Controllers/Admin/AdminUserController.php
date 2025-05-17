@@ -26,7 +26,8 @@ class AdminUserController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(
+            $request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -34,7 +35,8 @@ class AdminUserController extends Controller
             'phone' => 'nullable|string|max:20',
             'is_admin' => 'sometimes|boolean', // Разрешаем админу назначать других админов
             'send_verification' => 'sometimes|boolean' // Опционально: отправить ли верификацию
-        ]);
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -58,10 +60,12 @@ class AdminUserController extends Controller
         }
 
 
-        return response()->json([
+        return response()->json(
+            [
             'message' => 'Пользователь успешно создан администратором.',
             'user' => $user
-        ], 201);
+            ], 201
+        );
     }
 
     public function show(User $user)
@@ -72,7 +76,8 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(
+            $request->all(), [
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
             // Уникальность email проверяем, игнорируя текущего пользователя
@@ -81,7 +86,8 @@ class AdminUserController extends Controller
             'password' => 'sometimes|nullable|string|min:8', // Новый пароль (если нужно изменить)
             'is_admin' => 'sometimes|boolean', // Админ может менять роль
             'email_verified_at' => 'sometimes|nullable|date', // Админ может вручную подтвердить/снять подтверждение
-        ]);
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -103,10 +109,12 @@ class AdminUserController extends Controller
 
         $user->update($userData);
 
-        return response()->json([
+        return response()->json(
+            [
             'message' => 'Данные пользователя успешно обновлены администратором.',
             'user' => $user->fresh()
-        ]);
+            ]
+        );
     }
 
     public function destroy(User $user)

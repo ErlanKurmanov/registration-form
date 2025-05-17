@@ -18,8 +18,7 @@ class OrderController extends Controller
 {
     public function __construct(
         private OrderService $orderService
-    )
-    {
+    ) {
     }
 
     /**
@@ -69,9 +68,11 @@ class OrderController extends Controller
 
         } catch (Exception $e) {
             DB::rollBack();
-            return response()->json([
+            return response()->json(
+                [
                 'message' => 'Order creation failed: ' . $e->getMessage()
-            ], 400);
+                ], 400
+            );
         }
     }
 

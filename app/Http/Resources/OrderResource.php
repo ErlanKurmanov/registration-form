@@ -17,16 +17,18 @@ class OrderResource extends JsonResource
             'total' => $this->total,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
-            'items' => $this->items->map(function ($item) {
-                return [
+            'items' => $this->items->map(
+                function ($item) {
+                    return [
                     'product_id' => $item->product_id,
                     'name' => $item->product->name,
                     'price' => $item->price,
                     'quantity' => $item->quantity,
                     'options' => $item->options,
                     'subtotal' => $item->price * $item->quantity,
-                ];
-            }),
+                    ];
+                }
+            ),
             'shipping_address' => $this->shipping_address,
             'billing_address' => $this->billing_address,
             'payment_method' => $this->payment_method,

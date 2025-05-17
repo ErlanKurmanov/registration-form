@@ -22,9 +22,7 @@ return new class extends Migration
             $table->foreignId('cart_id')->constrained('carts')->cascadeOnDelete();
             $table->foreignId('product_id')->constrained('products')->cascadeOnDelete();
             $table->unsignedInteger('quantity')->default(1);
-            $table->json('options')->nullable(); // Размер, цвет и т.д.
             $table->timestamps();
-
             $table->unique(['cart_id', 'product_id']); // Уникальная пара
         });
     }

@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Contracts\Services\ProductServiceInterface;
 use App\Http\Requests\CreateProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use App\Contracts\ProductServiceInterface;
-
 use Illuminate\Http\JsonResponse;
 
 
@@ -33,11 +31,19 @@ class ProductController extends Controller
 
     public function byCategory(int $id): JsonResponse
     {
-        $products = $this->productService->getProductsByCategory($id);
+        try {
+            $products = $this->productService->getProductsByCategory($id);
 
-        return ProductResource::collection($products)
-            ->response()
-            ->setStatusCode(200);
+            return ProductResource::collection($products)
+                ->response()
+                ->setStatusCode(200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json(
+                [
+                    'message' => 'Category not found.', // More specific message
+                ], 404
+            );
+        }
     }
 
     public function show(int $id): JsonResponse
@@ -49,9 +55,11 @@ class ProductController extends Controller
                 ->response()
                 ->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
-            return response()->json([
+            return response()->json(
+                [
                 'message' => 'Product not found.',
-            ], 404);
+                ], 404
+            );
         }
     }
 
@@ -77,9 +85,11 @@ class ProductController extends Controller
                 ->response()
                 ->setStatusCode(200);
         } catch (ModelNotFoundException $e) {
-            return response()->json([
+            return response()->json(
+                [
                 'message' => 'Product not found.',
-            ], 404);
+                ], 404
+            );
         }
     }
 
@@ -91,19 +101,22 @@ class ProductController extends Controller
             $deleted = $this->productService->deleteProduct($id);
 
             if ($deleted) {
-                // 204 No Content is a common RESTful response for successful deletion
-                return response()->json([
-                    'message' => 'Product deleted successfully.',
-                ], 204);
+                return response()->noContent();
             }
 
-            return response()->json([
-                'message' => 'Failed to delete product.',
-            ], 500);
+            return response()->json(
+                [
+                    'message' => 'Failed to delete product.',
+                ], 500
+            );
         } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'message' => 'Product not found.',
-            ], 404);
+            return response()->json(
+                [
+                    'message' => 'Product not found.',
+                ], 404
+            );
         }
     }
+
+
 }
