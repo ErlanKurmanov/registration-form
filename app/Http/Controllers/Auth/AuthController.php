@@ -24,42 +24,50 @@ class AuthController extends Controller
     public function register(Request $request)
     {
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(
+            $request->all(), [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
             'phone' => 'nullable|string|max:20',
-        ]);
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422); // 422 Unprocessable Entity
         }
 
-        $user = User::create([
+        $user = User::create(
+            [
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-        ]);
+            ]
+        );
 
-//         Sends email
-//        event(new Registered($user));
+        //         Sends email
+        //        event(new Registered($user));
 
-        return response()->json([
+        return response()->json(
+            [
             'message' => 'Пользователь успешно зарегистрирован. Пожалуйста, проверьте свою почту для подтверждения аккаунта.',
             'user' => $user
-        ], 201); // 201 Created
+            ], 201
+        ); // 201 Created
     }
 
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(
+            $request->all(), [
             'email' => 'required|string|email',
             'password' => 'required|string',
-        ]);
+            ]
+        );
 
 
         if ($validator->fails()) {
@@ -107,12 +115,14 @@ class AuthController extends Controller
 
     protected function respondWithToken($token)
     {
-        return response()->json([
+        return response()->json(
+            [
             'access_token' => $token,
             'token_type' => 'bearer',
             // Время жизни токена в секундах
             'expires_in' => auth('api')->factory()->getTTL() * 60
-        ]);
+            ]
+        );
     }
 
 

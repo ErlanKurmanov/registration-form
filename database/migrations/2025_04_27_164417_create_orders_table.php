@@ -22,6 +22,14 @@ return new class extends Migration
             $table->string('comment')->nullable();
             $table->timestamps();
         });
+        Schema::create('order_items', function (Blueprint $table) {
+            $table->id(); // Primary key
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
+            $table->integer('quantity');
+            $table->decimal('price', 10, 2); // price per item
+            $table->timestamps();
+        });
     }
 
     /**

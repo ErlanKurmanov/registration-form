@@ -24,7 +24,8 @@ class UserProfileController extends Controller
     {
         $user = auth('api')->user();
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make(
+            $request->all(), [
             'first_name' => 'sometimes|required|string|max:255',
             'last_name' => 'sometimes|required|string|max:255',
             // Email можно менять, но это потребует повторной верификации.
@@ -32,7 +33,8 @@ class UserProfileController extends Controller
             // 'email' => ['sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'phone' => 'nullable|string|max:20',
             'password' => 'sometimes|nullable|string|min:8|confirmed',
-        ]);
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -48,10 +50,12 @@ class UserProfileController extends Controller
 
         $user->update($userData);
 
-        return response()->json([
+        return response()->json(
+            [
             'message' => 'Профиль успешно обновлен.',
             'user' => $user->fresh() // Возвращаем обновленные данные
-        ]);
+            ]
+        );
     }
 
 

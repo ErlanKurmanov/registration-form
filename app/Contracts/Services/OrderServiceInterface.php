@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Contracts;
+namespace App\Contracts\Services;
 
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
-use Illuminate\Support\Collection; // Для передачи данных корзины
+
+// Для передачи данных корзины
 
 interface OrderServiceInterface
 {

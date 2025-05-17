@@ -12,7 +12,7 @@ class SyncCartRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->check();
+        return true/*auth()->check()*/;
     }
 
 
@@ -25,7 +25,6 @@ class SyncCartRequest extends FormRequest
                 Rule::exists('products', 'id')->where('is_available', true)
             ],
             'items.*.quantity' => 'required|integer|min:1',
-//            'items.*.options' => 'nullable|array',
         ];
     }
 }
